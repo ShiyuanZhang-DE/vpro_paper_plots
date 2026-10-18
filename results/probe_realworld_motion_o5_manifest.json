@@ -1,0 +1,46 @@
+{
+  "status": "ERROR",
+  "target": "state_delta_h5",
+  "horizon": 5,
+  "split_seed": 42,
+  "split": "RandomState.choice 20% of unique valid robot episodes",
+  "mlp_seed": 0,
+  "mlp_reference": "experiments/fit_decode_realworld_lapa.py:TorchMLP",
+  "latent_scaling": "StandardScaler fit on training rows only",
+  "ridge_alpha": 1,
+  "state_dimensions": [
+    "ee.x",
+    "ee.y",
+    "ee.z",
+    "ee.wx",
+    "ee.wy",
+    "ee.wz",
+    "ee.gripper_pos"
+  ],
+  "baseline_comparison": {
+    "comparable": false,
+    "reason": "Original four methods use old DK1 original4, whereas A0-A3 use DK1 newtasks. Do not append unmatched baselines.",
+    "original_sources": [
+      "results/probe_perdim_realworld.csv: state_delta_h5, ours_single/ours_multi, teachers 44160743/43524549",
+      "results/probe_realworld_lapa_local.csv: delta_h5, lapa_scratch/lapa_init, original4 teachers 59094662/59093801"
+    ],
+    "original_n_train": 137152,
+    "original_n_test": 35881,
+    "episode_counts": {
+      "old_DK1": {
+        "robot_3cam": 681,
+        "video_2cam": 1040
+      },
+      "DK1_newtasks": {
+        "robot_3cam": 531,
+        "video_2cam": 1000
+      }
+    },
+    "source_csv_sha256": {
+      "vpro_paper_plots/results/probe_perdim_realworld.csv": "c545e49e751468d2b9c28849c3ebca503b0761d2ef397f554a00e96d6683a0e6",
+      "vpro_paper_plots/results/probe_realworld_lapa_local.csv": "c26df517fa65f4e6db484fb04efa94900569d03b51c99f4458906b0518ae2f93"
+    }
+  },
+  "arms": {},
+  "error": "ValueError('setting an array element with a sequence.')"
+}
