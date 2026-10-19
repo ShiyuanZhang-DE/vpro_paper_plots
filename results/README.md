@@ -674,3 +674,43 @@ for script in plot_realworld_multiview_lapa_alltasks.py plot_realworld_probe_all
     "$IMAGE" /bin/python "$script"
 done
 ```
+
+## Original4 spatial-o5 replication
+
+`probe_realworld_motion_o5_original_4.csv` is produced only after the four new
+seed-1003 A0-A3 original4 teachers, full exports and Policy Probes succeed.
+It retains the existing o5 schema:
+`method,teacher_job,target,probe,mean_r2,n_train,n_test,train_episode_count,test_episode_count,source_labeled_dataset,checkpoint_step,action_dim,dim_name,r2`.
+Target is `state_delta_h5`; probes are Ridge and the original TorchMLP;
+`action_dim=-1` is the unweighted mean over dimensions 0..6.
+The matching manifest records the CSV hash and cross-arm sample checks.
+
+`probe_realworld_motion_o5_original_4_baseline_audit.json` records actual source
+and historical-export checks. Native o5 has 139332/36425 train/test frames;
+historical h9-valid labels have 137152/35881. The two LAPA exports were checked;
+historical DINO raw exports are unavailable locally, so their exact frame keys
+remain unverified. Historical CSV values are unchanged; the sample-range reminder
+is recorded in `repo/code/multiview_spatial_o5/expe_docu.md`, outside the figures.
+`plot_motion_original4.py` reuses the original four-method loader/renderer for
+six/eight-method `realworld_motion_r2_o5_original_4_A0_A2` and
+`realworld_motion_r2_o5_original_4_A0_A1_A2_A3` PDF/PNG pairs. Both use
+`style_science.py` (`science`, `ieee`, `no-latex`) and contain no footer notes.
+After the measured probe outputs exist, `--overwrite` regenerates only these
+four figure files; it never fits probes or edits the input CSVs.
+
+`probe_realworld_motion_o5_original_4_seed42.csv` and its `_manifest.json` are
+reserved for the separate A0-original4-seed42 replication. The probe-only job
+uses `fit_motion_o5.py --arm A0` with its own ledger: two probes × eight rows
+(seven dimensions plus mean), using the same loader, split and fitting recipe.
+It generates no figures, does not enter the six/eight-method comparisons, and
+does not automatically fill the four R² fields in `expe_docu.md`.
+
+## Newtasks A0 seed42 continuation
+
+`probe_realworld_motion_o5_newtasks_seed42.csv` and its `_manifest.json` evaluate
+only completed teacher `61264173`, using the unchanged Motion recipe and
+`fit_motion_o5.py --arm A0`. The 16 rows retain both probes, seven dimensions and
+their mean. This continuation computes Policy/Motion R² only; no figures are
+requested. README R² cells remain blank until an explicit collection request.
+It excludes original4 baselines and never overwrites raw results.
+Jobs and paths are recorded in `repo/code/multiview_spatial_o5/README.md`.

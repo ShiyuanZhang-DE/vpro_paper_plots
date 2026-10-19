@@ -53,10 +53,12 @@ def load(row):
         assert np.array_equal(f, np.arange(len(f))), 'Non-contiguous original frame ordering'
     state = np.stack(table['observation.state'].to_numpy())
     assert state.shape == (len(table), 7) and np.isfinite(state).all()
-    z = np.asarray([np.asarray(x, dtype=np.float32).reshape(1, 8) for x in table['latent_labels.continuous_vector_latents']], dtype=np.float32)[:, 0]
-    valid = np.asarray(table['latent_labels.valid'].tolist()).reshape(-1).astype(bool)
-    same = np.zeros(len(eps), dtype=bool)
-    same[:-5] = (eps[:-5] == eps[5:]) & (frames[5:] == frames[:-5] + 5)
+    # Exact nested-latent decoder from the original DK1 probe.
+    z = np.stack([np.concatenate([np.asarray(x, dtype=np.float32).ravel() for x in a])
+                  for a in table['latent_labels.continuous_vector_latents'].values])
+    assert z.shape == (len(table), 8) and z.dtype == np.float32
+    valid = table['latent_labels.valid'].values.astype(bool)
+    same = np.roll(eps, -5) == eps
     # Exactly the original subtraction; no axis, angular or unit transformation.
     target = np.roll(state, -5, axis=0) - state
     ok = valid & same
@@ -77,8 +79,11 @@ def load(row):
 def main():
     ap = argparse.ArgumentParser(__doc__)
     ap.add_argument('--ledger', type=Path, required=True)
+    ap.add_argument('--arm', choices=['A0', 'A1', 'A2', 'A3'], help='Evaluate one ledger arm only')
     args = ap.parse_args()
     ledger = json.loads(args.ledger.read_text())
+    if args.arm:
+        ledger['arms'] = {args.arm: ledger['arms'][args.arm]}
     out = Path(ledger['motion_csv'])
     manifest_path = Path(ledger['motion_manifest'])
     assert not out.exists() and not manifest_path.exists(), 'Never overwrite an experiment'
@@ -100,7 +105,7 @@ def main():
         # The job waits afterany on gates, so failed gates do not block motion results.
         for arm, row in ledger['arms'].items():
             if (Path(row['policy_root'])/'summary.json').exists():
-                manifest['arms'][arm]['policy_validation'] = audit_policy(row)
+                manifest['arms'][arm]['policy_validation'] = audit_policy(row, write=False)
         verified = [a['policy_validation'] for a in manifest['arms'].values() if 'policy_validation' in a]
         if verified:
             for value in verified[1:]:
@@ -113,12 +118,11 @@ def main():
         for arm, item in arrays.items():
             z, y, train, test = (item[k] for k in ['z', 'y', 'train', 'test'])
             scaler = StandardScaler().fit(z[train])
-            x_train, x_test = scaler.transform(z[train]), scaler.transform(z[test])
             source = ledger['arms'][arm]
             for probe, model in [('ridge', Ridge(alpha=1.0)), ('mlp', TorchMLP(0))]:
                 start = time.time()
-                model.fit(x_train, y[train])
-                pred = model.predict(x_test)
+                model.fit(scaler.transform(z[train]), y[train])
+                pred = model.predict(scaler.transform(z[test]))
                 scores = np.array([r2_score(y[test, d], pred[:, d]) for d in range(7)])
                 assert np.isfinite(scores).all()
                 base = dict(method=arm, teacher_job=source['teacher_job'], target='state_delta_h5', probe=probe,
@@ -131,7 +135,7 @@ def main():
                 manifest['arms'][arm][probe] = dict(epochs=getattr(model, 'epochs', None), mean_r2=float(scores.mean()), r2=scores.tolist())
                 manifest_path.write_text(json.dumps(manifest, indent=2)+'\n')
         frame = pd.DataFrame(rows)
-        assert len(frame) == 4*2*8
+        assert len(frame) == len(ledger['arms'])*2*8
         # Exclusive creation and readback: source CSV is immutable once complete.
         with out.open('x') as handle:
             frame.to_csv(handle, index=False)
