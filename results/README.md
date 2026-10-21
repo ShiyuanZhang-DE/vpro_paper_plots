@@ -714,3 +714,25 @@ their mean. This continuation computes Policy/Motion R² only; no figures are
 requested. README R² cells remain blank until an explicit collection request.
 It excludes original4 baselines and never overwrites raw results.
 Jobs and paths are recorded in `repo/code/multiview_spatial_o5/README.md`.
+
+## ALL-O5 controlled cohorts (2026-10-19)
+
+`probe_realworld_motion_o5_original4_{historical,newer}_seed{1003,42}_ALLo5.csv`
+and the adjacent `_manifest.json` are new, append-only outputs of
+`experiments/fit_motion_o5.py`. Only the cohorts actually submitted receive
+artifacts. Each method has seven dimension rows and a Mean row for both Ridge
+and the original TorchMLP. The existing schema and mathematics are unchanged:
+`state_delta_h5`, split seed 42, original TorchMLP initialization seed 0,
+training-only StandardScaler, Ridge alpha 1. The manifest pins the CSV SHA-256,
+teacher/checkpoint identity, row keys, masks, targets, episode identities and
+train/test keys. Every new cohort must match its existing dataset-specific O5
+reference before fitting. Teacher seeds are kept in separate files.
+The unused optional P2 newtasks expansion was cancelled on 2026-10-21; existing
+newtasks result files and experiments remain unchanged.
+
+`plot_motion_allo5.py` reads only the new historical original4 seed1003 CSV and
+the existing verified A0–A3 original4 O5 CSV. It reuses the original SciencePlots
+six/eight-method renderer, with new `_ALLo5.pdf` and `_ALLo5.png` names. It never
+calls the O159 baseline CSV loader. No seed42 plots are generated. The append-only
+`all_o5_original4_plot_manifest.json` records source and figure hashes; human
+visual review remains explicitly pending until the generated images are opened.

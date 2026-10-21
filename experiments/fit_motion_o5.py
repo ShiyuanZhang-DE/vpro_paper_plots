@@ -79,7 +79,7 @@ def load(row):
 def main():
     ap = argparse.ArgumentParser(__doc__)
     ap.add_argument('--ledger', type=Path, required=True)
-    ap.add_argument('--arm', choices=['A0', 'A1', 'A2', 'A3'], help='Evaluate one ledger arm only')
+    ap.add_argument('--arm', help='Evaluate one ledger arm only')
     args = ap.parse_args()
     ledger = json.loads(args.ledger.read_text())
     if args.arm:
@@ -97,14 +97,29 @@ def main():
         for arm, row in ledger['arms'].items():
             item = load(row)
             if arrays:
-                ref = arrays['A0']
+                ref = next(iter(arrays.values()))
                 for key in ['keys', 'state', 'valid', 'train', 'test']:
                     assert np.array_equal(item[key], ref[key]), f'{arm}: {key} mismatch; no intersection or resplit allowed'
             arrays[arm] = item
             manifest['arms'][arm] = dict(item['details'], teacher_job=row['teacher_job'], checkpoint=row['checkpoint'], labeled_root=row['labeled_root'])
+        # New cohorts must match previously measured O5 rows before any fitting.
+        if ledger.get('reference_motion_manifest'):
+            reference_path = Path(ledger['reference_motion_manifest'])
+            reference = json.loads(reference_path.read_text())
+            assert reference['status'] == 'COMPLETE'
+            assert reference['target'] == 'state_delta_h5' and reference['horizon'] == 5
+            assert reference['split_seed'] == 42 and reference['mlp_seed'] == 0
+            reference_arm = next(iter(reference['arms'].values()))
+            for entry in manifest['arms'].values():
+                for key in ['robot_episodes', 'train_episodes', 'test_episodes', 'n_train', 'n_test',
+                            'valid_mask_sha256', 'row_keys_sha256', 'target_sha256',
+                            'train_keys_sha256', 'test_keys_sha256']:
+                    assert entry[key] == reference_arm[key], 'Reference O5 evaluation mismatch: '+key
+            manifest['reference_motion_manifest'] = str(reference_path)
+            manifest['reference_motion_manifest_sha256'] = hashlib.sha256(reference_path.read_bytes()).hexdigest()
         # The job waits afterany on gates, so failed gates do not block motion results.
         for arm, row in ledger['arms'].items():
-            if (Path(row['policy_root'])/'summary.json').exists():
+            if not ledger.get('defer_policy_validation', False) and (Path(row['policy_root'])/'summary.json').exists():
                 manifest['arms'][arm]['policy_validation'] = audit_policy(row, write=False)
         verified = [a['policy_validation'] for a in manifest['arms'].values() if 'policy_validation' in a]
         if verified:
