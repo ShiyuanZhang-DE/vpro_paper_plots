@@ -736,3 +736,38 @@ six/eight-method renderer, with new `_ALLo5.pdf` and `_ALLo5.png` names. It neve
 calls the O159 baseline CSV loader. No seed42 plots are generated. The append-only
 `all_o5_original4_plot_manifest.json` records source and figure hashes; human
 visual review remains explicitly pending until the generated images are opened.
+
+## Camera embedding ablation (Joint O5, teacher 61385438)
+
+`probe_motion_joint_o5_embed_{zero,swapped}.csv` and corresponding
+`_manifest.json` files are new, append-only outputs of the unchanged
+`experiments/fit_motion_o5.py`. Each CSV has 16 rows: Ridge and MLP, each with
+`action_dim=-1` (unweighted mean) and dimensions 0–6; `r2`, `mean_r2`, target,
+teacher, labeled-source path, checkpoint step and row/episode counts use the
+existing Motion O5 schema. Reference scores come from the verified
+`ours_multi` rows of `probe_realworld_motion_o5_original4_historical_seed1003_ALLo5.csv`.
+Exact original evaluation hashes and 139332/36425 train/test rows are required.
+`plot_camera_embedding_ablation.py` renders one SciencePlots PDF/PNG pair,
+`joint_o5_camera_embedding_ablation_original4_seed1003`, after both probes pass.
+
+
+Verified 2026-10-21: both ablations and the collector completed with exit 0:0.
+The reference is the same trained original4 seed1003 O5 checkpoint; only
+`lam.camera_embedding` changes (all other 596 tensors and saved configs are
+identical). ZERO zeros both rows; SWAPPED exchanges Front/Side embedding rows
+while preserving Front/Side image order. Teacher weights are not retrained;
+the motion probes are fitted separately with the unchanged recipe.
+
+| Variant | Motion MLP mean R² | Δ vs original | Motion Ridge mean R² | Δ vs original |
+|---|---:|---:|---:|---:|
+| ORIGINAL | 0.543017038 | +0.000000000 | 0.379430464 | +0.000000000 |
+| ZERO | 0.541414874 | -0.001602164 | 0.379411791 | -0.000018673 |
+| SWAPPED | 0.541765622 | -0.001251417 | 0.379411595 | -0.000018869 |
+
+Mean performance is close for this one teacher/probe seed. Grip MLP R² drops
+by 0.018864751 (ZERO) / 0.010418117 (SWAPPED), so per-dimension results are not
+identical. Mean latent L2 changes are 0.001059042 / 0.002168832 across 402,840
+valid rows. No policy rollout or reconstruction comparison was run.
+The PNG was visually checked; PDF visual review remains pending.
+Full per-dimension scores, intervention checks, scope and audit receipt are in
+[`embed_expe_docu.md`](../../repo/code/multiview_spatial_o5/embed_expe_docu.md).

@@ -1,0 +1,17 @@
+method,teacher_job,target,probe,mean_r2,n_train,n_test,train_episode_count,test_episode_count,source_labeled_dataset,checkpoint_step,action_dim,dim_name,r2
+zero,61385438,state_delta_h5,ridge,0.3794117910521371,139332,36425,545,136,/leonardo_work/EUHPC_B38_106/rlfv/runs/latent_labels/dk1_original4_joint_o5_embed_zero_teacher61385438,30000,-1,mean,0.3794117910521371
+zero,61385438,state_delta_h5,ridge,0.3794117910521371,139332,36425,545,136,/leonardo_work/EUHPC_B38_106/rlfv/runs/latent_labels/dk1_original4_joint_o5_embed_zero_teacher61385438,30000,0,dx,0.6832754611968994
+zero,61385438,state_delta_h5,ridge,0.3794117910521371,139332,36425,545,136,/leonardo_work/EUHPC_B38_106/rlfv/runs/latent_labels/dk1_original4_joint_o5_embed_zero_teacher61385438,30000,1,dy,0.5750410556793213
+zero,61385438,state_delta_h5,ridge,0.3794117910521371,139332,36425,545,136,/leonardo_work/EUHPC_B38_106/rlfv/runs/latent_labels/dk1_original4_joint_o5_embed_zero_teacher61385438,30000,2,dz,0.7898707389831543
+zero,61385438,state_delta_h5,ridge,0.3794117910521371,139332,36425,545,136,/leonardo_work/EUHPC_B38_106/rlfv/runs/latent_labels/dk1_original4_joint_o5_embed_zero_teacher61385438,30000,3,dtheta_x,0.06705683469772339
+zero,61385438,state_delta_h5,ridge,0.3794117910521371,139332,36425,545,136,/leonardo_work/EUHPC_B38_106/rlfv/runs/latent_labels/dk1_original4_joint_o5_embed_zero_teacher61385438,30000,4,dtheta_y,0.0742829442024231
+zero,61385438,state_delta_h5,ridge,0.3794117910521371,139332,36425,545,136,/leonardo_work/EUHPC_B38_106/rlfv/runs/latent_labels/dk1_original4_joint_o5_embed_zero_teacher61385438,30000,5,dtheta_z,0.44831323623657227
+zero,61385438,state_delta_h5,ridge,0.3794117910521371,139332,36425,545,136,/leonardo_work/EUHPC_B38_106/rlfv/runs/latent_labels/dk1_original4_joint_o5_embed_zero_teacher61385438,30000,6,gripper,0.018042266368865967
+zero,61385438,state_delta_h5,mlp,0.5414148739406041,139332,36425,545,136,/leonardo_work/EUHPC_B38_106/rlfv/runs/latent_labels/dk1_original4_joint_o5_embed_zero_teacher61385438,30000,-1,mean,0.5414148739406041
+zero,61385438,state_delta_h5,mlp,0.5414148739406041,139332,36425,545,136,/leonardo_work/EUHPC_B38_106/rlfv/runs/latent_labels/dk1_original4_joint_o5_embed_zero_teacher61385438,30000,0,dx,0.8499875068664551
+zero,61385438,state_delta_h5,mlp,0.5414148739406041,139332,36425,545,136,/leonardo_work/EUHPC_B38_106/rlfv/runs/latent_labels/dk1_original4_joint_o5_embed_zero_teacher61385438,30000,1,dy,0.883962094783783
+zero,61385438,state_delta_h5,mlp,0.5414148739406041,139332,36425,545,136,/leonardo_work/EUHPC_B38_106/rlfv/runs/latent_labels/dk1_original4_joint_o5_embed_zero_teacher61385438,30000,2,dz,0.9506621360778809
+zero,61385438,state_delta_h5,mlp,0.5414148739406041,139332,36425,545,136,/leonardo_work/EUHPC_B38_106/rlfv/runs/latent_labels/dk1_original4_joint_o5_embed_zero_teacher61385438,30000,3,dtheta_x,0.09995448589324951
+zero,61385438,state_delta_h5,mlp,0.5414148739406041,139332,36425,545,136,/leonardo_work/EUHPC_B38_106/rlfv/runs/latent_labels/dk1_original4_joint_o5_embed_zero_teacher61385438,30000,4,dtheta_y,0.14849501848220825
+zero,61385438,state_delta_h5,mlp,0.5414148739406041,139332,36425,545,136,/leonardo_work/EUHPC_B38_106/rlfv/runs/latent_labels/dk1_original4_joint_o5_embed_zero_teacher61385438,30000,5,dtheta_z,0.7470608949661255
+zero,61385438,state_delta_h5,mlp,0.5414148739406041,139332,36425,545,136,/leonardo_work/EUHPC_B38_106/rlfv/runs/latent_labels/dk1_original4_joint_o5_embed_zero_teacher61385438,30000,6,gripper,0.10978198051452637
