@@ -1,0 +1,7 @@
+task,multiview_sr,side_only_sr,lapa_init_sr,n_rollouts
+task1,0.20,0.08,0.12,25
+task2,0.48,0.20,0.20,25
+task3,0.48,0.32,0.56,25
+task4,0.68,0.24,0.44,25
+task5,0.32,0.16,0.24,25
+task6,0.36,0.32,0.28,25

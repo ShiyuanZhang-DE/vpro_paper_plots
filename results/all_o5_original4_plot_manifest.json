@@ -1,0 +1,49 @@
+{
+  "status": "COMPLETE",
+  "dataset": "original4",
+  "teacher_seed": 1003,
+  "offsets": [
+    5
+  ],
+  "sources_sha256": {
+    "/leonardo_work/EUHPC_B38_106/rlfv/runs/lam_outputs/61385429_single_view_o5_30k_original_4_ALLo5/checkpoints/030000/pretrained_model/train_config.json": "d6abd0f91479314b19cfad6b4680897e0eb67009a804a44d8383123fb7f3ce07",
+    "/leonardo_work/EUHPC_B38_106/rlfv/runs/latent_labels/dk1_original4_seed1003_ours_single_o5_teacher61385429_ckpt030000_ALLo5/label_manifest.json": "809999c013cf167663b12c8456b3ce2d447b156a8f4e2aad47449be94a282ee3",
+    "/leonardo_work/EUHPC_B38_106/rlfv/datasets/experiments/dk1-postprocessed-full-3cam-placeholder-20260719/meta/info.json": "75b635389278a09d1bc1039e2bae69d105f48033ce5b6f398d9a57928aa666b6",
+    "/leonardo_work/EUHPC_B38_106/rlfv/datasets/experiments/dk1-postprocessed-full-3cam-placeholder-20260719/meta/source_episodes.parquet": "753a66e2a70e6bfda57c41f17d95fb47a6dc7533c86b198e732c3e17e14c6ef8",
+    "/leonardo_work/EUHPC_B38_106/rlfv/vpro_paper_plots/results/probe_realworld_motion_o5_original4_historical_seed1003_ALLo5.csv": "f64e159ef096ddcd26c040f9e675aa447e89f0def4464a6e40c3420e2640522e",
+    "/leonardo_work/EUHPC_B38_106/rlfv/vpro_paper_plots/results/probe_realworld_motion_o5_original4_historical_seed1003_ALLo5_manifest.json": "d3df1ab516fdff1df0ec8da67232fcf681af7e837ade52194ebcdef4f6b6c34f",
+    "/leonardo_work/EUHPC_B38_106/rlfv/runs/lam_outputs/61385438_multi_view_o5_30k_original_4_ALLo5/checkpoints/030000/pretrained_model/train_config.json": "6ba24a523e47e6bba572720f494a637cd5ac9ab6ffdd6c61829c5422674684e2",
+    "/leonardo_work/EUHPC_B38_106/rlfv/runs/latent_labels/dk1_original4_seed1003_ours_multi_o5_teacher61385438_ckpt030000_ALLo5/label_manifest.json": "867bcc8cbe0cb8f8658976d90267e68aae5a4d90a8cc61700f1a382bbd5b9c14",
+    "/leonardo_work/EUHPC_B38_106/rlfv/runs/lam_outputs/61385445_lapa_scratch_o5_30k_original_4_ALLo5/checkpoints/030000/pretrained_model/train_config.json": "7283cf6d01cce7109ae2453482581752e374c567472e6fa3b865f2eb1d53c50a",
+    "/leonardo_work/EUHPC_B38_106/rlfv/runs/latent_labels/dk1_original4_seed1003_lapa_scratch_o5_teacher61385445_ckpt030000_ALLo5/label_manifest.json": "34ef3b9b14818e575723533f922d872fbe7a10f9e1888f9786fc673d90f77284",
+    "/leonardo_work/EUHPC_B38_106/rlfv/runs/lam_outputs/61385449_lapa_init_o5_30k_original_4_ALLo5/checkpoints/030000/pretrained_model/train_config.json": "7ef0b5cd9ac3aee901c6b09f5b66178819f561ef37d5619788b315fe2e17763a",
+    "/leonardo_work/EUHPC_B38_106/rlfv/runs/latent_labels/dk1_original4_seed1003_lapa_init_o5_teacher61385449_ckpt030000_ALLo5/label_manifest.json": "1cd20f2893761571f9d876b97a2448310a48f6e749ab92b332d0616806d43e9c",
+    "/leonardo_scratch/fast/EUHPC_B38_106/rlfv/runs/lam_outputs/61278992_a0_o5_30k_original_4/checkpoints/030000/pretrained_model/train_config.json": "f8b7b04b6452b38befa82098efec93b3f4756adab6f802e01e3c3517b3f018c1",
+    "/leonardo_scratch/fast/EUHPC_B38_106/rlfv/runs/latent_labels/dk1_original_4_a0_o5_teacher61278992_ckpt030000/label_manifest.json": "5f7203b9001e66962b46cc30a15e9e757669888f9cdafb48bec2c62f7041dd2f",
+    "/leonardo_work/EUHPC_B38_106/rlfv/vpro_paper_plots/results/probe_realworld_motion_o5_original_4.csv": "4bb324684673457f3803761148d67131d434be50b6c6df4033b3793e4f566b45",
+    "/leonardo_work/EUHPC_B38_106/rlfv/vpro_paper_plots/results/probe_realworld_motion_o5_original_4_manifest.json": "c61422cefacc8df3b7a2631799bbb6510366c2d760e42c50244eeb5629e5d7d8",
+    "/leonardo_scratch/fast/EUHPC_B38_106/rlfv/runs/lam_outputs/61278994_a1_o5_30k_original_4/checkpoints/030000/pretrained_model/train_config.json": "85e2b812a932dd96d47296ea8e40061a0259b590c6ed9ae2de4e6fd9686030e8",
+    "/leonardo_scratch/fast/EUHPC_B38_106/rlfv/runs/latent_labels/dk1_original_4_a1_o5_teacher61278994_ckpt030000/label_manifest.json": "b55811ce165971205be08f817184428d15690e5f145713cc9261d71d27642d8d",
+    "/leonardo_scratch/fast/EUHPC_B38_106/rlfv/runs/lam_outputs/61278997_a2_o5_30k_original_4/checkpoints/030000/pretrained_model/train_config.json": "35b313a08dadbf22a0cfc730d41473ac7020b28a965fbabffbfa8ce645602af2",
+    "/leonardo_scratch/fast/EUHPC_B38_106/rlfv/runs/latent_labels/dk1_original_4_a2_o5_teacher61278997_ckpt030000/label_manifest.json": "2733e78d3df512bd8d462568f16e78db4338e43f9788ce30b87135e6ae41776c",
+    "/leonardo_scratch/fast/EUHPC_B38_106/rlfv/runs/lam_outputs/61279001_a3_o5_30k_original_4/checkpoints/030000/pretrained_model/train_config.json": "e106e5d4d583af017309af95c66a592f02d52b0e17644b588497c89ba2a02f67",
+    "/leonardo_scratch/fast/EUHPC_B38_106/rlfv/runs/latent_labels/dk1_original_4_a3_o5_teacher61279001_ckpt030000/label_manifest.json": "41f5800de51af2cc4aa471a6dc50128a315d9858b7e9febddbec051171791eb2"
+  },
+  "outputs_sha256": {
+    "/leonardo_work/EUHPC_B38_106/rlfv/vpro_paper_plots/figures/realworld_motion_r2_o5_original_4_A0_A2_ALLo5.png": "f7f096cc36b081784fb4a6dc7faaacbbcf1aed2dd859498e0587324db36bfb15",
+    "/leonardo_work/EUHPC_B38_106/rlfv/vpro_paper_plots/figures/realworld_motion_r2_o5_original_4_A0_A2_ALLo5.pdf": "aa81fc4802513933dc1bbd4ae8dd503d08c3489bd64e23bea455018aacd9ac54",
+    "/leonardo_work/EUHPC_B38_106/rlfv/vpro_paper_plots/figures/realworld_motion_r2_o5_original_4_A0_A1_A2_A3_ALLo5.png": "6bc1c8c7c263d102649c38ddc8eb34c6b18481f6db5336e8f61ec751bca608c1",
+    "/leonardo_work/EUHPC_B38_106/rlfv/vpro_paper_plots/figures/realworld_motion_r2_o5_original_4_A0_A1_A2_A3_ALLo5.pdf": "85646cd8837e45db74e1d0d9c5f28f6cec93b1aa54648ed7aa798bc79ff8d534"
+  },
+  "renderer": "plot_motion_original4.make_comparison; plot_realworld_probe_all4.make_figure",
+  "checks": [
+    "48/64 bars",
+    "original ordering and colors",
+    "saved measurements",
+    "negative values visible",
+    "text bounds",
+    "legend overlap",
+    "PDF/PNG readback"
+  ],
+  "human_visual_review": "PENDING"
+}

@@ -628,3 +628,111 @@ No figure, numbers for the text:
 - `xemb_latent_grid_latent_cos.csv` -- pairwise cosine of the six motion latents.
 - `xemb_latent_grid_candidates.csv` -- the search: 300 + 300 candidate latents (moving
   moments of each embodiment) scored the same way (`score` = R_robot * R_human * cos).
+
+
+## LAPA hardware comparisons (science style only)
+
+`realworld_multiview_lapa_alltasks.csv` is the six-task, five-demo success-rate
+comparison read by `plot_realworld_multiview_lapa_alltasks.py`. Its exact schema
+is `task,multiview_sr,side_only_sr,lapa_init_sr,n_rollouts`: fractions in [0, 1],
+25 rollouts per method/task, task IDs and labels from `tasks.py`. Only LAPA init
+is included in this SR comparison. The original four tasks' Multi-View and
+Single-view values match `realworld_multiview_vs_side.csv`; all six Multi-View
+values match the five-demo `video_sr` rows of `realworld_alltasks.csv`. Mean is
+computed from the six tasks, weighted by rollout count (42%, 22%, 30.666667%).
+
+`probe_realworld_lapa_local.csv` is the measured output of
+`experiments/fit_decode_realworld_lapa.py`, retained in full, including its
+absolute-target and ridge rows. Its schema is
+`method,target,probe,action_dim,r2,n_train,n_test`; methods are `lapa_scratch` and
+`lapa_init`, targets `abs` and `delta_h5`, probes `ridge` and `mlp`, and
+`action_dim` is 0..6 (x, y, z, theta_x, theta_y, theta_z, grip) or -1 (Mean).
+The experiment accepts `--init-root`, `--scratch-root`, and `--output` paths to
+existing labeled exports; the plotting scripts do not read those exports or
+recompute labels, probes, or rollouts.
+
+`plot_realworld_probe_all4.py` reads only the LAPA MLP/`delta_h5` rows and the
+original `ours_single`/`ours_multi` MLP/`state_delta_h5` rows from the unchanged
+`probe_perdim_realworld.csv`. Both targets mean
+`observation.state[t+5] - observation.state[t]`. All four methods use
+137152 train / 35881 test samples; Mean averages seven dimension R² values,
+including the gripper. The resulting probe figure compares single-view,
+multi-view, LAPA scratch and LAPA init in one panel.
+
+Both scripts require `style_science.py` and write only
+`figures/realworld_multiview_lapa_alltasks_science.{pdf,png}` and
+`figures/realworld_probe_all4_science.{pdf,png}` respectively. On Leonardo,
+use the existing read-only RLFV container with the isolated
+`$RLFV_WORK/vpro_plot_pydeps` directory containing `SciencePlots==2.2.2`:
+
+```sh
+source /leonardo_work/EUHPC_B38_106/rlfv/repo/leonardo/env.sh
+cd "$RLFV_WORK/vpro_paper_plots"
+for script in plot_realworld_multiview_lapa_alltasks.py plot_realworld_probe_all4.py; do
+  singularity exec -B "$RLFV_BINDS" \
+    --env PYTHONPATH="$RLFV_WORK/vpro_plot_pydeps",MPLBACKEND=Agg \
+    "$IMAGE" /bin/python "$script"
+done
+```
+
+## Original4 spatial-o5 replication
+
+`probe_realworld_motion_o5_original_4.csv` is produced only after the four new
+seed-1003 A0-A3 original4 teachers, full exports and Policy Probes succeed.
+It retains the existing o5 schema:
+`method,teacher_job,target,probe,mean_r2,n_train,n_test,train_episode_count,test_episode_count,source_labeled_dataset,checkpoint_step,action_dim,dim_name,r2`.
+Target is `state_delta_h5`; probes are Ridge and the original TorchMLP;
+`action_dim=-1` is the unweighted mean over dimensions 0..6.
+The matching manifest records the CSV hash and cross-arm sample checks.
+
+`probe_realworld_motion_o5_original_4_baseline_audit.json` records actual source
+and historical-export checks. Native o5 has 139332/36425 train/test frames;
+historical h9-valid labels have 137152/35881. The two LAPA exports were checked;
+historical DINO raw exports are unavailable locally, so their exact frame keys
+remain unverified. Historical CSV values are unchanged; the sample-range reminder
+is recorded in `repo/code/multiview_spatial_o5/expe_docu.md`, outside the figures.
+`plot_motion_original4.py` reuses the original four-method loader/renderer for
+six/eight-method `realworld_motion_r2_o5_original_4_A0_A2` and
+`realworld_motion_r2_o5_original_4_A0_A1_A2_A3` PDF/PNG pairs. Both use
+`style_science.py` (`science`, `ieee`, `no-latex`) and contain no footer notes.
+After the measured probe outputs exist, `--overwrite` regenerates only these
+four figure files; it never fits probes or edits the input CSVs.
+
+`probe_realworld_motion_o5_original_4_seed42.csv` and its `_manifest.json` are
+reserved for the separate A0-original4-seed42 replication. The probe-only job
+uses `fit_motion_o5.py --arm A0` with its own ledger: two probes × eight rows
+(seven dimensions plus mean), using the same loader, split and fitting recipe.
+It generates no figures, does not enter the six/eight-method comparisons, and
+does not automatically fill the four R² fields in `expe_docu.md`.
+
+## Newtasks A0 seed42 continuation
+
+`probe_realworld_motion_o5_newtasks_seed42.csv` and its `_manifest.json` evaluate
+only completed teacher `61264173`, using the unchanged Motion recipe and
+`fit_motion_o5.py --arm A0`. The 16 rows retain both probes, seven dimensions and
+their mean. This continuation computes Policy/Motion R² only; no figures are
+requested. README R² cells remain blank until an explicit collection request.
+It excludes original4 baselines and never overwrites raw results.
+Jobs and paths are recorded in `repo/code/multiview_spatial_o5/README.md`.
+
+## ALL-O5 controlled cohorts (2026-10-19)
+
+`probe_realworld_motion_o5_original4_{historical,newer}_seed{1003,42}_ALLo5.csv`
+and the adjacent `_manifest.json` are new, append-only outputs of
+`experiments/fit_motion_o5.py`. Only the cohorts actually submitted receive
+artifacts. Each method has seven dimension rows and a Mean row for both Ridge
+and the original TorchMLP. The existing schema and mathematics are unchanged:
+`state_delta_h5`, split seed 42, original TorchMLP initialization seed 0,
+training-only StandardScaler, Ridge alpha 1. The manifest pins the CSV SHA-256,
+teacher/checkpoint identity, row keys, masks, targets, episode identities and
+train/test keys. Every new cohort must match its existing dataset-specific O5
+reference before fitting. Teacher seeds are kept in separate files.
+The unused optional P2 newtasks expansion was cancelled on 2026-10-21; existing
+newtasks result files and experiments remain unchanged.
+
+`plot_motion_allo5.py` reads only the new historical original4 seed1003 CSV and
+the existing verified A0–A3 original4 O5 CSV. It reuses the original SciencePlots
+six/eight-method renderer, with new `_ALLo5.pdf` and `_ALLo5.png` names. It never
+calls the O159 baseline CSV loader. No seed42 plots are generated. The append-only
+`all_o5_original4_plot_manifest.json` records source and figure hashes; human
+visual review remains explicitly pending until the generated images are opened.
